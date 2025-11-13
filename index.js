@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//! Database -----------------------------------
+//! Database --------------------------
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.aramfem.mongodb.net/plate-share-db`;
 
 const client = new MongoClient(uri, {
@@ -32,7 +32,7 @@ async function run() {
     app.post("/food", async (req, res) => {
       try {
         const newFood = req.body;
-        // Optional: validate required fields
+    
         if (!newFood.food_name || !newFood.donator_email) {
           return res
             .status(400)
