@@ -29,15 +29,27 @@ async function run() {
 
     const foodsCollection = db.collection("foods");
 
-    //! create food-----------------------------------------
     app.post("/food", async (req, res) => {
-      const newFood = req.body;
-      const result = await foodsCollection.insertOne(newFood);
-      console.log(result);
-      res.send(result);
+      try {
+        const newFood = req.body;
+        // Optional: validate required fields
+        if (!newFood.food_name || !newFood.donator_email) {
+          return res
+            .status(400)
+            .json({ message: "Food name and donator email are required" });
+        }
+        const result = await foodsCollection.insertOne(newFood);
+        res.status(201).json({
+          message: "Food created successfully",
+          foodId: result.insertedId,
+        });
+      } catch (error) {
+        console.error("Error creating food:", error);
+        res.status(500).json({ message: "Server error" });
+      }
     });
 
-    //! get food ------------------------------
+    //! get food-----------------------------
     app.get("/foods", async (req, res) => {
       try {
         const cursor = foodsCollection.find();
@@ -49,7 +61,7 @@ async function run() {
       }
     });
 
-    //! single food get ------------------------------
+    //! single food get-----------------------------
     app.get("/food-details/:id", async (req, res) => {
       try {
         const id = req.params.id;

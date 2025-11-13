@@ -17,6 +17,7 @@
     "firebase": "^12.5.0",
     "mongodb": "^7.0.0",
     "mongoose": "^8.19.3",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "react-datepicker": "^8.9.0"
   }
 }
